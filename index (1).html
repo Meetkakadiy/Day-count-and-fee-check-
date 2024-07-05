@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendar Checkbox Counter</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    max-width: 700px;
+  }
+  
+  .calendar-day {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .calendar-day p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .calendar-day input[type="checkbox"] {
+    margin-top: 10px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  p {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  #totalChecked, #totalAmount {
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+  <h2>Calendar Checkbox Counter</h2>
+  <div class="calendar" id="calendar"></div>
+  <button onclick="countChecked()">Count Checked Days</button>
+  <p>Total days checked: <span id="totalChecked">0</span></p>
+  <button onclick="calculateAmount()">Calculate Amount</button>
+  <p>Total amount: ₹<span id="totalAmount">0</span></p>
+
+  <script>
+    // Function to create the calendar
+    function createCalendar(month, year) {
+      const daysInMonth = new Date(year, month, 0).getDate();
+      const calendarDiv = document.getElementById('calendar');
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.classList.add('calendar-day');
+        dayDiv.innerHTML = `
+          <p>${day}</p>
+          <input type="checkbox" id="day${day}">
+        `;
+        calendarDiv.appendChild(dayDiv);
+      }
+    }
+
+    // Function to count checked checkboxes
+    function countChecked() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      let checkedCount = 0;
+      checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+          checkedCount++;
+        }
+      });
+      document.getElementById('totalChecked').textContent = checkedCount;
+    }
+
+    // Function to calculate the total amount based on checked checkboxes
+    function calculateAmount() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      let checkedCount = 0;
+      checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+          checkedCount++;
+        }
+      });
+      const amount = checkedCount * 150; // 150 is the value per checkbox
+      document.getElementById('totalAmount').textContent = amount;
+    }
+
+    // Create the calendar for current month (adjust as needed)
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1; // getMonth is zero-based
+    const currentYear = now.getFullYear();
+    createCalendar(currentMonth, currentYear);
+  </script>
+</body>
+</html>
